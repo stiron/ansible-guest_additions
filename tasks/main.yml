@@ -1,0 +1,34 @@
+---
+- name: Check if the Guest Additions is installed
+  check_additions:
+
+- name: Mount the guest additions ISO
+  mount:
+    name: /mnt
+    src: /dev/sr0
+    fstype: iso9660
+    opts: ro
+    state: mounted
+  tags:
+    - mount
+    - guest_additions
+  when: (additions_is_installed==False and ansible_virtualization_role==guest)
+
+- name: Install the guest additions
+  command: ./VBoxLinuxAdditions.run chdir=/mnt
+  tags:
+    - install
+    - guest_additions
+  when: (additions_is_installed==False and ansible_virtualization_role==guest)
+
+- name: Umount the guest additions ISO
+  mount:
+    name: /mnt
+    src: /dev/sr0
+    fstype: iso9660
+    opts: ro
+    state: absent
+  tags:
+    - umount
+    - guest_additions
+  when: (additions_is_installed==False and ansible_virtualization_role==guest)
