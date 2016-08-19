@@ -12,14 +12,14 @@
   tags:
     - mount
     - guest_additions
-  when: (additions_is_installed==False and ansible_virtualization_role==guest)
+  when: (additions_is_installed==False and ansible_virtualization_role=="guest")
 
 - name: Install the guest additions
   command: ./VBoxLinuxAdditions.run chdir=/mnt
   tags:
     - install
     - guest_additions
-  when: (additions_is_installed==False and ansible_virtualization_role==guest)
+  when: (additions_is_installed==False and ansible_virtualization_role=="guest")
 
 - name: Umount the guest additions ISO
   mount:
@@ -31,4 +31,4 @@
   tags:
     - umount
     - guest_additions
-  when: (additions_is_installed==False and ansible_virtualization_role==guest)
+  when: (additions_is_installed==False and ansible_virtualization_role=="guest")
